@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Layout } from "antd";
 import UserHeader from "../../components/userHeader";
 import UserPayment from "./payment";
@@ -14,12 +14,6 @@ const UserDashboard: React.FC = () => {
     setActiveTab(key);
     localStorage.setItem("activeTab", key);
   };
-
-  useEffect(() => {
-    return () => {
-      localStorage.removeItem("activeTab");
-    };
-  }, []);
 
   return (
     <Layout className="w-full h-screen">

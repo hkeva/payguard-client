@@ -41,9 +41,10 @@ const UserDocument: React.FC = () => {
   ];
 
   const [createDocument, { isLoading }] = useCreateDocumentMutation();
-  const { data: tableData } = useGetDocumentByUserQuery({
-    userId: JSON.parse(localStorage.getItem("user") || "{}")._id,
-  });
+  const { data: tableData, isLoading: isListLoading } =
+    useGetDocumentByUserQuery({
+      userId: JSON.parse(localStorage.getItem("user") || "{}")._id,
+    });
 
   const handleOpenModal = (record: any) => {
     setModalData(record);
@@ -122,8 +123,9 @@ const UserDocument: React.FC = () => {
         try {
           await createDocument(documentDetails).unwrap();
           message.success("Document created successfully!");
-        } catch {
-          message.error("Document could not be created!");
+        } catch (error: any) {
+          if (error.status == 400) message.error(error.data.message);
+          else message.error("Document could not be created!");
         }
       }
     } catch {
@@ -203,7 +205,7 @@ const UserDocument: React.FC = () => {
               columns={columns}
               dataSource={tableData.data || []}
               pagination={false}
-              loading={isLoading}
+              loading={isListLoading}
               className="text-sm"
             />
           </div>

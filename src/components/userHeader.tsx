@@ -48,7 +48,7 @@ const UserHeader: React.FC<UserHeaderProps> = ({ onTabChange }) => {
       </div>
       <Divider className="my-2 border-blue-500 border-opacity-80" />
       <div className="flex justify-center items-center">
-        <Tabs defaultActiveKey="1" onChange={onTabChange} className="w-[200px]">
+        <Tabs defaultActiveKey="1" onChange={onTabChange} className="w-[210px]">
           <TabPane
             tab={
               <span>
