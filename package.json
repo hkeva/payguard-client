@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@reduxjs/toolkit": "^2.5.0",
+    "@supabase/supabase-js": "^2.47.12",
     "antd": "^5.23.0",
     "dayjs": "^1.11.13",
     "jspdf": "^2.5.2",

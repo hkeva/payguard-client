@@ -22,8 +22,30 @@ export const documentApi = createApi({
       //@ts-ignore
       invalidatesTags: ["GET_DOCUMENT_LIST"],
     }),
+    createDocument: builder.mutation({
+      query: (details: { title: string; fileUrl: string }) => ({
+        url: `documents`,
+        method: "POST",
+        body: details,
+      }),
+      //@ts-ignore
+      invalidatesTags: ["GET_DOCUMENT_LIST_BY_USER"],
+    }),
+    // get documents by useId
+    getDocumentByUser: builder.query({
+      query: ({ userId }) => ({
+        url: `documents/${userId}`,
+        method: "GET",
+      }),
+      //@ts-ignore
+      providesTags: ["GET_DOCUMENT_LIST_BY_USER"],
+    }),
   }),
 });
 
-export const { useGetDocumentListQuery, useUpdateDocumentStatusMutation } =
-  documentApi;
+export const {
+  useGetDocumentListQuery,
+  useUpdateDocumentStatusMutation,
+  useCreateDocumentMutation,
+  useGetDocumentByUserQuery,
+} = documentApi;

@@ -6,7 +6,6 @@ import {
   Select,
   Space,
   Popconfirm,
-  Tag,
   message,
   Tooltip,
 } from "antd";
@@ -23,21 +22,9 @@ import { STATUS } from "../../../constants/constant";
 import { IPayment } from "../../../types";
 import { generateInvoicePDF } from "../../../utils/generatePdf";
 import dayjs from "dayjs";
+import { getStatusTag } from "../../../utils/utils";
 
 const { Option } = Select;
-
-const getStatusTag = (status: string) => {
-  switch (status) {
-    case STATUS.PENDING:
-      return <Tag color="volcano">{status}</Tag>;
-    case STATUS.APPROVED:
-      return <Tag color="green">{status}</Tag>;
-    case STATUS.REJECTED:
-      return <Tag color="red">{status}</Tag>;
-    default:
-      return <Tag>{status}</Tag>;
-  }
-};
 
 const PaymentTable = () => {
   const [filters, setFilters] = useState({
