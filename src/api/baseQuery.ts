@@ -4,9 +4,7 @@ export async function refreshAccessToken() {
   const refreshToken = localStorage.getItem("refreshToken");
 
   if (!refreshToken) {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
+    localStorage.clear();
     localStorage.setItem("sessionExpired", "true");
     location.reload();
     return;
@@ -41,9 +39,7 @@ export async function refreshAccessToken() {
     }
   } catch (error) {
     console.error("Error refreshing token:", error);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
+    localStorage.clear();
     localStorage.setItem("sessionExpired", "true");
     location.reload();
   }

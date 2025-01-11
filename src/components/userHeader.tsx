@@ -11,16 +11,15 @@ import { useNavigate } from "react-router-dom";
 const { TabPane } = Tabs;
 
 interface UserHeaderProps {
+  activeTab: string;
   onTabChange: (key: string) => void;
 }
 
-const UserHeader: React.FC<UserHeaderProps> = ({ onTabChange }) => {
+const UserHeader: React.FC<UserHeaderProps> = ({ activeTab, onTabChange }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
+    localStorage.clear();
     navigate("/");
   };
 
@@ -48,7 +47,12 @@ const UserHeader: React.FC<UserHeaderProps> = ({ onTabChange }) => {
       </div>
       <Divider className="my-2 border-blue-500 border-opacity-80" />
       <div className="flex justify-center items-center">
-        <Tabs defaultActiveKey="1" onChange={onTabChange} className="w-[210px]">
+        <Tabs
+          activeKey={activeTab}
+          defaultActiveKey="1"
+          onChange={onTabChange}
+          className="w-[210px]"
+        >
           <TabPane
             tab={
               <span>

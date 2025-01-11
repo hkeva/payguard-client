@@ -20,9 +20,7 @@ const AppLayout = () => {
   };
 
   const handleUserLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
+    localStorage.clear();
     navigate("/");
   };
 

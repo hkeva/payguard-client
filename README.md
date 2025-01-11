@@ -1,50 +1,48 @@
-# React + TypeScript + Vite
+# PayGuard System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PayGuard is a very simple payment and document management system with user and admin dashboards.
 
-Currently, two official plugins are available:
+## Links
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[PayGuard System Live](https://payguard-system.netlify.app/)
 
-## Expanding the ESLint configuration
+[Backend Codebase](https://github.com/hkeva/payguard-server).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+### Admin Dashboard
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Login**: Admin can log in using the credentials below.
+- **Admin Features**:
+  - View and filter payment, document, and user lists.
+  - Update payment/document status (this triggers an email to the user).
+  - Download payment invoices.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+#### Admin Login
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Email**: `humayraeva@gmail.com`
+- **Password**: `12345678`
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### User Dashboard
+
+- **Register**: Users need to register first.
+- **Login**: Users need to verify their email before logging in.
+- **User Features**:
+  - Create new payments and documents.
+  - View a list of their created payments and documents.
+
+## Technologies Used
+
+- **Supabase** for authentication.
+- **Stripe** for payment integration.
+- **RTK Query** for API integration.
+- **Ant Design (antd)** for UI components.
+- **Tailwind CSS** for styling.
+
+### Run project
+
+```bash
+yarn or npm install
+yarn dev or npm run dev
+
 ```

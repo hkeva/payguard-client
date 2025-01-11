@@ -142,14 +142,9 @@ const UserDocument: React.FC = () => {
 
   return (
     <>
-      <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md mt-4">
-        <h2 className="text-2xl font-semibold mb-4 text-center">
-          Upload Your Document
-        </h2>
-
-        <div className="space-y-4">
-          <div>
-            <label className="block text-lg font-medium mb-2">Title</label>
+      <div>
+        <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md mt-4">
+          <div className="space-y-4">
             <input
               type="text"
               value={title}
@@ -158,59 +153,51 @@ const UserDocument: React.FC = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {titleError && (
-              <p className="text-red-500 text-sm mt-1">{titleError}</p>
+              <p className="text-red-500 text-sm !mt-[2px]">{titleError}</p>
             )}
-          </div>
 
-          <div>
-            <label className="block text-lg font-medium mb-2">
-              Upload Document
-            </label>
             <input
               type="file"
               ref={fileInputRef}
               accept=".pdf,.docx,.jpg,.png"
               onChange={handleFileChange}
-              className="w-full p-3 border border-gray-300 rounded-lg file:cursor-pointer file:border-0 file:bg-blue-500 file:text-white file:px-4 file:py-2 hover:file:bg-blue-600"
+              className="w-full p-2 border border-gray-300 rounded-lg file:cursor-pointer file:border-0 file:bg-blue-500 file:text-white file:px-4 file:py-2 hover:file:bg-blue-600"
             />
             {fileError && (
-              <p className="text-red-500 text-sm mt-1">{fileError}</p>
+              <p className="text-red-500 text-sm !mt-[2px]">{fileError}</p>
             )}
-          </div>
 
-          <div>
-            <button
-              onClick={handleFileUpload}
-              disabled={uploading || isLoading}
-              className={`w-full py-2 text-white font-semibold rounded-lg ${
-                uploading
-                  ? "bg-blue-300 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600"
-              }`}
-            >
-              {uploading || isLoading ? "Uploading..." : "Upload Document"}
-            </button>
+            <div>
+              <button
+                onClick={handleFileUpload}
+                disabled={uploading || isLoading}
+                className={`w-full py-2 text-white font-semibold rounded-lg ${
+                  uploading
+                    ? "bg-blue-300 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600"
+                }`}
+              >
+                {uploading || isLoading ? "Uploading..." : "Upload Document"}
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* table */}
+        {tableData && (
+          <Table
+            columns={columns}
+            dataSource={tableData.data || []}
+            pagination={false}
+            loading={isListLoading}
+            title={() => (
+              <div className="font-bold text-lg">Your Documents</div>
+            )}
+            className="max-w-[900px] mx-auto text-sm overflow-auto border border-gray-200 rounded shadow-sm p-4 mt-4"
+            style={{ maxHeight: "calc(100vh - 450px)" }}
+          />
+        )}
       </div>
-
-      {/* table */}
-      <h2 className="text-2xl font-semibold mb-4 text-center mt-8">
-        Your Documents
-      </h2>
-      {tableData && (
-        <div className="max-h-[800px] p-4">
-          <div className="max-h-[300px] overflow-auto border border-gray-200 rounded shadow-sm">
-            <Table
-              columns={columns}
-              dataSource={tableData.data || []}
-              pagination={false}
-              loading={isListLoading}
-              className="text-sm"
-            />
-          </div>
-        </div>
-      )}
       {isModalVisible && (
         <DetailsModal
           onClose={handleCloseModal}

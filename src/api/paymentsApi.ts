@@ -22,8 +22,30 @@ export const paymentApi = createApi({
       //@ts-ignore
       invalidatesTags: ["GET_PAYMENT_LIST"],
     }),
+    createPayment: builder.mutation({
+      query: (details: { title: string; amount: string }) => ({
+        url: "stripe-payment",
+        method: "POST",
+        body: details,
+      }),
+      //@ts-ignore
+      invalidatesTags: ["GET_PAYMENT_LIST_BY_USER"],
+    }),
+    // get payments by useId
+    getPaymentByUser: builder.query({
+      query: ({ userId }) => ({
+        url: `payments/${userId}`,
+        method: "GET",
+      }),
+      //@ts-ignore
+      providesTags: ["GET_PAYMENT_LIST_BY_USER"],
+    }),
   }),
 });
 
-export const { useGetPaymentListQuery, useUpdatePaymentStatusMutation } =
-  paymentApi;
+export const {
+  useGetPaymentListQuery,
+  useUpdatePaymentStatusMutation,
+  useCreatePaymentMutation,
+  useGetPaymentByUserQuery,
+} = paymentApi;

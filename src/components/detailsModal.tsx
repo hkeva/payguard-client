@@ -35,19 +35,17 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, data, type }) => {
       fileExtension === "png"
     ) {
       return (
-        <>
-          {loading && (
-            <Spin className="block mb-2.5 text-center" size="large" />
-          )}
+        <div className="mt-4">
+          {loading && <Spin className="mt-1" size="small" />}
           <Image
             width={100}
             src={fileUrl}
             alt="Preview"
             preview={{ src: fileUrl }}
             onLoad={handleImageLoad}
-            className={`rounded-lg mt-4 ${loading ? "hidden" : "block"}`}
+            className={`rounded-lg ${loading ? "hidden" : "block"}`}
           />
-        </>
+        </div>
       );
     }
     return null;
@@ -65,6 +63,11 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, data, type }) => {
       <p className="mt-2">
         <strong>Status:</strong> {data?.status && getStatusTag(data.status)}
       </p>
+      {type === "payment" && data?.amount && (
+        <p className="mt-2">
+          <strong>Amount:</strong> {data?.amount}TK
+        </p>
+      )}
       <p className="mt-2">
         <strong>Created At:</strong>{" "}
         {data?.createdAt && dayjs(data.createdAt).format("YYYY-MM-DD h:mm A")}
@@ -74,11 +77,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, data, type }) => {
         {data?.updatedAt && dayjs(data.updatedAt).format("YYYY-MM-DD h:mm A")}
       </p>
       {type === "document" && data?.fileUrl && renderFilePreview(data.fileUrl)}
-      {type === "payment" && data?.amount && (
-        <p className="mt-2">
-          <strong>Amount:</strong> {data?.amount}
-        </p>
-      )}
     </Modal>
   );
 };
