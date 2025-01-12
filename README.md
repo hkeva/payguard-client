@@ -28,7 +28,9 @@ PayGuard is a very simple payment and document management system with user and a
 - **Register**: Users need to register first.
 - **Login**: Users need to verify their email before logging in.
 - **User Features**:
-  - Create new payments and documents.
+  - Create new payments.
+    (_Note: Since Stripe is in test mode, please use valid test card information provided by [Stripe's Test Card Info](https://docs.stripe.com/testing)._)
+  - Create new documents.
   - View a list of their created payments and documents.
 
 ## Technologies Used
@@ -38,6 +40,16 @@ PayGuard is a very simple payment and document management system with user and a
 - **RTK Query** for API integration.
 - **Ant Design (antd)** for UI components.
 - **Tailwind CSS** for styling.
+
+### Environment Variables
+
+```bash
+VITE_API_BASE_URL=<Your API Base URL>
+VITE_SUPABASE_URL=<Your Supabase Project URL>
+VITE_SUPABASE_ANON_KEY=<Your Supabase Anon Key>
+VITE_STRIPE_PUBLISHABLE_KEY=<Your Stripe Publishable Key>
+
+```
 
 ### Run project
 
