@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Form, Input, Button, message, Table } from "antd";
+import { Form, Input, Button, message, Table, Spin } from "antd";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   useCreatePaymentMutation,
@@ -167,6 +167,11 @@ const UserPayment = () => {
         </div>
 
         {/* table */}
+        {isListLoading && (
+          <div className="flex justify-center mt-[30px]">
+            <Spin />
+          </div>
+        )}
         {tableData && (
           <Table
             columns={columns}

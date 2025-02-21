@@ -4,7 +4,7 @@ import {
   useCreateDocumentMutation,
   useGetDocumentByUserQuery,
 } from "../../api/documentApi";
-import { message, Table } from "antd";
+import { message, Spin, Table } from "antd";
 import DetailsModal from "../../components/detailsModal";
 import { getStatusTag } from "../../utils/utils";
 
@@ -184,12 +184,16 @@ const UserDocument: React.FC = () => {
         </div>
 
         {/* table */}
+        {isListLoading && (
+          <div className="flex justify-center mt-[30px]">
+            <Spin />
+          </div>
+        )}
         {tableData && (
           <Table
             columns={columns}
             dataSource={tableData.data || []}
             pagination={false}
-            loading={isListLoading}
             title={() => (
               <div className="font-bold text-lg">Your Documents</div>
             )}
