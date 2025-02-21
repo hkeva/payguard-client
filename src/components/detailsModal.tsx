@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Modal, Button, Divider, Image, Spin } from "antd";
+import React from "react";
+import { Modal, Button, Divider, Image } from "antd";
 import dayjs from "dayjs";
 import { getStatusTag } from "../utils/utils";
 
@@ -10,12 +10,6 @@ interface DetailsModalProps {
 }
 
 const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, data, type }) => {
-  const [loading, setLoading] = useState(true);
-
-  const handleImageLoad = () => {
-    setLoading(false);
-  };
-
   const renderFilePreview = (fileUrl: string) => {
     const fileExtension = fileUrl.split(".").pop()?.toLowerCase();
     if (fileExtension === "pdf") {
@@ -36,14 +30,12 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, data, type }) => {
     ) {
       return (
         <div className="mt-4">
-          {loading && <Spin className="mt-1" size="small" />}
           <Image
             width={100}
             src={fileUrl}
             alt="Preview"
             preview={{ src: fileUrl }}
-            onLoad={handleImageLoad}
-            className={`rounded-lg ${loading ? "hidden" : "block"}`}
+            className="rounded-lg block"
           />
         </div>
       );
