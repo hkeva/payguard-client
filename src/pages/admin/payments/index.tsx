@@ -8,6 +8,7 @@ import {
   Popconfirm,
   message,
   Tooltip,
+  Pagination,
 } from "antd";
 import {
   CopyOutlined,
@@ -32,6 +33,8 @@ const PaymentTable = () => {
     title: "",
     amount: "",
     status: "",
+    page: 1,
+    limit: 10,
   });
 
   const { data, isLoading, isFetching } = useGetPaymentListQuery(filters);
@@ -59,6 +62,8 @@ const PaymentTable = () => {
       title: "",
       amount: "",
       status: "",
+      page: 1,
+      limit: 10,
     });
   };
 
@@ -174,6 +179,13 @@ const PaymentTable = () => {
     setCurrentUserId(userId);
   };
 
+  const onPageChange = (page: number) => {
+    setFilters({
+      ...filters,
+      page: page,
+    });
+  };
+
   return (
     <div className="p-6">
       <div className="mb-6 w-full flex flex-wrap justify-center gap-4">
@@ -205,6 +217,14 @@ const PaymentTable = () => {
         <Button onClick={handleResetFilter} className="w-full sm:w-auto">
           Reset
         </Button>
+      </div>
+
+      <div className="flex justify-center">
+        <Pagination
+          defaultCurrent={1}
+          total={data ? data.meta.total : null}
+          onChange={onPageChange}
+        />
       </div>
 
       <Table

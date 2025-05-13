@@ -6,8 +6,8 @@ export const documentApi = createApi({
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
     getDocumentList: builder.query({
-      query: ({ title, status }) => ({
-        url: `documents?title=${title}&status=${status}`,
+      query: ({ title, status, page, limit }) => ({
+        url: `documents?title=${title}&status=${status}&page=${page}&limit=${limit}`,
         method: "GET",
       }),
       //@ts-ignore

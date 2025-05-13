@@ -6,8 +6,8 @@ export const paymentApi = createApi({
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
     getPaymentList: builder.query({
-      query: ({ title, status, amount }) => ({
-        url: `payments?title=${title}&status=${status}&amount=${amount}`,
+      query: ({ title, status, amount, page, limit }) => ({
+        url: `payments?title=${title}&status=${status}&amount=${amount}&page=${page}&limit=${limit}`,
         method: "GET",
       }),
       //@ts-ignore

@@ -6,8 +6,8 @@ export const userApi = createApi({
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
     getUserList: builder.query({
-      query: ({ id, name, email }) => ({
-        url: `users?id=${id}&name=${name}&email=${email}`,
+      query: ({ name, email, page, limit }) => ({
+        url: `users?name=${name}&email=${email}&page=${page}&limit=${limit}`,
         method: "GET",
       }),
     }),

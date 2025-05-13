@@ -10,6 +10,7 @@ import {
   Tooltip,
   Input,
   Image,
+  Pagination,
 } from "antd";
 import { STATUS } from "../../../constants/constant";
 import {
@@ -39,9 +40,12 @@ const DocumentTable = () => {
   const [filters, setFilters] = useState({
     title: "",
     status: "",
+    page: 1,
+    limit: 10,
   });
 
   const { data, isLoading, isFetching } = useGetDocumentListQuery(filters);
+  console.log("data ", data && data.meta.total);
   const [updateDocumentStatus] = useUpdateDocumentStatusMutation();
   const [isShowUserDetails, setShowUserDetails] = useState(false);
   const [currentUserId, setCurrentUserId] = useState("");
@@ -65,6 +69,8 @@ const DocumentTable = () => {
     setFilters({
       title: "",
       status: "",
+      page: 1,
+      limit: 10,
     });
   };
 
@@ -193,6 +199,13 @@ const DocumentTable = () => {
     setCurrentUserId(userId);
   };
 
+  const onPageChange = (page: number) => {
+    setFilters({
+      ...filters,
+      page: page,
+    });
+  };
+
   return (
     <div className="p-6">
       <div className="mb-6 w-full flex flex-wrap justify-center gap-4">
@@ -217,6 +230,14 @@ const DocumentTable = () => {
         <Button onClick={handleResetFilter} className="w-full sm:w-auto">
           Reset
         </Button>
+      </div>
+
+      <div className="flex justify-center">
+        <Pagination
+          defaultCurrent={1}
+          total={data ? data.meta.total : null}
+          onChange={onPageChange}
+        />
       </div>
 
       <Table

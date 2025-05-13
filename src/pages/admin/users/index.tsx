@@ -1,27 +1,29 @@
 import { useState } from "react";
-import { Table, Input, Button, Tag, Row, Col } from "antd";
+import { Table, Input, Button, Tag, Row, Col, Pagination } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useGetUserListQuery } from "../../../api/userApi";
 import dayjs from "dayjs";
 
 const UserTable = () => {
   const [filters, setFilters] = useState({
-    id: "",
     name: "",
     email: "",
+    page: 1,
+    limit: 10,
   });
 
   const { data, isLoading, isFetching } = useGetUserListQuery(filters);
-
+  console.log("data =>", data && data.meta.total);
   const handleFilterChange = (value: string, key: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleResetFilter = () => {
     setFilters({
-      id: "",
       name: "",
       email: "",
+      page: 1,
+      limit: 10,
     });
   };
 
@@ -58,16 +60,16 @@ const UserTable = () => {
     },
   ];
 
+  const onPageChange = (page: number) => {
+    setFilters({
+      ...filters,
+      page: page,
+    });
+  };
+
   return (
     <div className="p-6">
       <div className="mb-6 w-full flex flex-wrap justify-center gap-4">
-        <Input
-          placeholder="Search by id"
-          value={filters.id}
-          onChange={(e) => handleFilterChange(e.target.value, "id")}
-          prefix={<SearchOutlined />}
-          className="w-full sm:w-48"
-        />
         <Input
           placeholder="Search by name"
           value={filters.name}
@@ -84,6 +86,14 @@ const UserTable = () => {
         <Button onClick={handleResetFilter} className="w-full sm:w-auto">
           Reset
         </Button>
+      </div>
+
+      <div className="flex justify-center">
+        <Pagination
+          defaultCurrent={1}
+          total={data ? data.meta.total : null}
+          onChange={onPageChange}
+        />
       </div>
 
       <Row gutter={[16, 16]}>
