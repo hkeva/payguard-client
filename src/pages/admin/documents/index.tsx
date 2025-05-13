@@ -51,7 +51,8 @@ const DocumentTable = () => {
   });
 
   const { data, isLoading, isFetching } = useGetDocumentListQuery(filters);
-  const [deleteDocument] = useDeleteDocumentMutation();
+  const [deleteDocument, { isLoading: isDeleteLoading }] =
+    useDeleteDocumentMutation();
   const [updateDocumentStatus] = useUpdateDocumentStatusMutation();
   const [isShowUserDetails, setShowUserDetails] = useState(false);
   const [currentUserId, setCurrentUserId] = useState("");
@@ -264,7 +265,7 @@ const DocumentTable = () => {
         </Button>
       </div>
 
-      <div className="flex justify-center">
+      <div className="mb-6 flex justify-center">
         <Pagination
           defaultCurrent={1}
           total={data ? data.meta.total : null}
@@ -278,7 +279,7 @@ const DocumentTable = () => {
         rowKey="key"
         className="overflow-y-auto max-h-[calc(100vh-200px)] p-4 rounded-lg shadow-sm"
         dataSource={data?.data || []}
-        loading={isLoading || isFetching}
+        loading={isLoading || isFetching || isDeleteLoading}
       />
 
       {isShowUserDetails && (

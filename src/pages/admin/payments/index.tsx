@@ -41,7 +41,8 @@ const PaymentTable = () => {
   });
 
   const { data, isLoading, isFetching } = useGetPaymentListQuery(filters);
-  const [deletePayment] = useDeletePaymentMutation();
+  const [deletePayment, { isLoading: isDeleteLoading }] =
+    useDeletePaymentMutation();
   const [updatePaymentStatus] = useUpdatePaymentStatusMutation();
   const [isShowUserDetails, setShowUserDetails] = useState(false);
   const [currentUserId, setCurrentUserId] = useState("");
@@ -249,7 +250,7 @@ const PaymentTable = () => {
         </Button>
       </div>
 
-      <div className="flex justify-center">
+      <div className="mb-6 flex justify-center">
         <Pagination
           defaultCurrent={1}
           total={data ? data.meta.total : null}
@@ -263,7 +264,7 @@ const PaymentTable = () => {
         rowKey="key"
         className="overflow-y-auto max-h-[calc(100vh-200px)] p-4 rounded-lg shadow-sm"
         dataSource={data?.data || []}
-        loading={isLoading || isFetching}
+        loading={isLoading || isFetching || isDeleteLoading}
       />
 
       {isShowUserDetails && (
