@@ -14,12 +14,18 @@ import {
 } from "antd";
 import { STATUS } from "../../../constants/constant";
 import {
+  useDeleteDocumentMutation,
   useGetDocumentListQuery,
   useUpdateDocumentStatusMutation,
 } from "../../../api/documentApi";
-import { CopyOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  CopyOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 import UserDetailsModal from "../../../components/userDetailsModal";
+import DeleteModal from "../../../components/deleteModal";
 
 const { Option } = Select;
 
@@ -45,10 +51,12 @@ const DocumentTable = () => {
   });
 
   const { data, isLoading, isFetching } = useGetDocumentListQuery(filters);
-  console.log("data ", data && data.meta.total);
+  const [deleteDocument] = useDeleteDocumentMutation();
   const [updateDocumentStatus] = useUpdateDocumentStatusMutation();
   const [isShowUserDetails, setShowUserDetails] = useState(false);
   const [currentUserId, setCurrentUserId] = useState("");
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedIdForDeletion, setSelectedIdForDeletion] = useState("");
 
   const handleFilterChange = (value: string, key: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -184,6 +192,13 @@ const DocumentTable = () => {
               Reject
             </Button>
           </Popconfirm>
+          <Tooltip title="Delete" color="#f87171">
+            <Button
+              className="bg-red-50 hover:bg-red-100 text-red-600"
+              icon={<DeleteOutlined className="text-red-600" />}
+              onClick={() => onDeleteModalOpen(record._id)}
+            />
+          </Tooltip>
         </Space>
       ),
     },
@@ -204,6 +219,23 @@ const DocumentTable = () => {
       ...filters,
       page: page,
     });
+  };
+
+  const onDeleteModalOpen = (id: string) => {
+    setDeleteModalOpen(true);
+    setSelectedIdForDeletion(id);
+  };
+
+  const onConfirmDelete = async (id: string) => {
+    setDeleteModalOpen(false);
+    setSelectedIdForDeletion("");
+
+    try {
+      await deleteDocument({ id }).unwrap();
+      message.success("Document deleted successfully");
+    } catch {
+      message.error("Failed to delete payment");
+    }
   };
 
   return (
@@ -253,6 +285,15 @@ const DocumentTable = () => {
         <UserDetailsModal
           userId={currentUserId}
           onClose={handleUserDetailsModalClose}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <DeleteModal
+          open={isDeleteModalOpen}
+          id={selectedIdForDeletion}
+          onClose={() => setDeleteModalOpen(false)}
+          onConfirm={(id) => onConfirmDelete(id)}
         />
       )}
     </div>

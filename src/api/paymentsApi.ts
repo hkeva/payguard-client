@@ -40,6 +40,15 @@ export const paymentApi = createApi({
       //@ts-ignore
       providesTags: ["GET_PAYMENT_LIST_BY_USER"],
     }),
+
+    deletePayment: builder.mutation({
+      query: ({ id }) => ({
+        url: `payments?id=${id}`,
+        method: "DELETE",
+      }),
+      //@ts-ignore
+      invalidatesTags: ["GET_PAYMENT_LIST"],
+    }),
   }),
 });
 
@@ -48,4 +57,5 @@ export const {
   useUpdatePaymentStatusMutation,
   useCreatePaymentMutation,
   useGetPaymentByUserQuery,
+  useDeletePaymentMutation,
 } = paymentApi;

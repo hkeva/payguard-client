@@ -40,6 +40,15 @@ export const documentApi = createApi({
       //@ts-ignore
       providesTags: ["GET_DOCUMENT_LIST_BY_USER"],
     }),
+
+    deleteDocument: builder.mutation({
+      query: ({ id }) => ({
+        url: `documents?id=${id}`,
+        method: "DELETE",
+      }),
+      //@ts-ignore
+      invalidatesTags: ["GET_DOCUMENT_LIST"],
+    }),
   }),
 });
 
@@ -48,4 +57,5 @@ export const {
   useUpdateDocumentStatusMutation,
   useCreateDocumentMutation,
   useGetDocumentByUserQuery,
+  useDeleteDocumentMutation,
 } = documentApi;
