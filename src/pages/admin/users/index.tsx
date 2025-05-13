@@ -27,11 +27,6 @@ const UserTable = () => {
 
   const columns = [
     {
-      title: "User ID",
-      dataIndex: "_id",
-      key: "_id",
-    },
-    {
       title: "Name",
       dataIndex: "name",
       key: "name",
