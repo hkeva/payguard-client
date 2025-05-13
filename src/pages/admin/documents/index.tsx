@@ -17,6 +17,7 @@ import {
 } from "../../../api/documentApi";
 import { CopyOutlined, SearchOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import UserDetailsModal from "../../../components/userDetailsModal";
 
 const { Option } = Select;
 
@@ -41,6 +42,8 @@ const DocumentTable = () => {
 
   const { data, isLoading, isFetching } = useGetDocumentListQuery(filters);
   const [updateDocumentStatus] = useUpdateDocumentStatusMutation();
+  const [isShowUserDetails, setShowUserDetails] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState("");
 
   const handleFilterChange = (value: string, key: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -100,24 +103,25 @@ const DocumentTable = () => {
       render: (status: string) => getStatusTag(status),
     },
     {
-      title: "Created by (User ID)",
+      title: "Created by",
       dataIndex: "userId",
       key: "userId",
-      render: (text: string) => (
-        <Tooltip title="Copy to clipboard" color={"#60a5fa"}>
-          <div className="flex items-center space-x-2">
-            <span
-              className="cursor-pointer text-blue-500"
-              onClick={() => copyToClipboard(text)}
-            >
-              {text}
-            </span>
+      render: (userId: { _id: string; email: string }) => (
+        <div className="flex items-center space-x-2">
+          <span
+            className="cursor-pointer text-blue-500"
+            onClick={() => handleUserDetailsModalOpen(userId._id)}
+          >
+            {userId.email}
+          </span>
+
+          <Tooltip title="Copy to clipboard" color={"#60a5fa"}>
             <CopyOutlined
               className="text-blue-500 cursor-pointer"
-              onClick={() => copyToClipboard(text)}
+              onClick={() => copyToClipboard(userId.email)}
             />
-          </div>
-        </Tooltip>
+          </Tooltip>
+        </div>
       ),
     },
     {
@@ -166,6 +170,16 @@ const DocumentTable = () => {
     },
   ];
 
+  const handleUserDetailsModalClose = () => {
+    setShowUserDetails(false);
+    setCurrentUserId("");
+  };
+
+  const handleUserDetailsModalOpen = (userId: string) => {
+    setShowUserDetails(true);
+    setCurrentUserId(userId);
+  };
+
   return (
     <div className="p-6">
       <div className="mb-6 w-full flex flex-wrap justify-center gap-4">
@@ -200,6 +214,13 @@ const DocumentTable = () => {
         dataSource={data?.data || []}
         loading={isLoading || isFetching}
       />
+
+      {isShowUserDetails && (
+        <UserDetailsModal
+          userId={currentUserId}
+          onClose={handleUserDetailsModalClose}
+        />
+      )}
     </div>
   );
 };
