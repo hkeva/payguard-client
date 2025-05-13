@@ -9,6 +9,7 @@ import {
   message,
   Tooltip,
   Input,
+  Image,
 } from "antd";
 import { STATUS } from "../../../constants/constant";
 import {
@@ -83,18 +84,30 @@ const DocumentTable = () => {
       title: "File URL",
       dataIndex: "fileUrl",
       key: "fileUrl",
-      render: (text: string) => (
-        <div className="max-w-[200px] truncate">
-          <a
-            href={text}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 underline"
-          >
-            {text}
-          </a>
-        </div>
-      ),
+      render: (text: string) => {
+        const isImage = /.(jpg|jpeg|png|gif|bmp|webp)$/i.test(text);
+        return (
+          <div className="flex items-center space-x-2 max-w-[250px] truncate">
+            {isImage ? (
+              <Image
+                width={80}
+                height={80}
+                src={text}
+                className="rounded-[5%] object-cover"
+              />
+            ) : (
+              <a
+                href={text}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+              >
+                Open file
+              </a>
+            )}
+          </div>
+        );
+      },
     },
     {
       title: "Status",
